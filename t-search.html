@@ -124,14 +124,14 @@ The form handles below mentioned scenarios on its own.
 
               <div id="start1" class="col-lg-1 col-md-1 col-sm-3 col-xs-6">
                 <t-input-date-picker required auto-validate error-message="{{resources.errorMessage.checkInError}}" class="suggestions" date-format="MM/DD/YYYY"
-                  id="start" label="Check in" min-date="[[minDatetoday]]" max-date="[[checkInmaxDate]]" on-keydown="_keypress"
+                  id="start" label="Check in" min-date="[[minDatetoday]]" max-date="[[maxDate]]" on-keydown="_keypress"
                   on-tap="_openDatePicker" on-focus="this.blur()">
                 </t-input-date-picker>
               </div>
 
               <div id="end1" class="col-lg-1 col-md-1 col-sm-3 col-xs-6">
                 <t-input-date-picker required auto-validate error-message="{{resources.errorMessage.checkOutError}}" class="suggestions"
-                  id="end" label="Check out" date-format="MM-DD-YYYY" on-keydown="_keypress" max-date="[[checkOutmaxDate]]"
+                  id="end" label="Check out" date-format="MM-DD-YYYY" on-keydown="_keypress" max-date="[[maxDate]]"
                   on-tap="_openDatePicker" on-focus="this.blur()">
                 </t-input-date-picker>
               </div>
@@ -364,22 +364,13 @@ The form handles below mentioned scenarios on its own.
         *Date format is mm/dd/yyyy.
         */
 
-        checkInmaxDate: {
+       maxDate: {
           value: function () {
             var x = 12; //or whatever offset
             var dateAfterOneYear = new Date();
             dateAfterOneYear.setMonth(dateAfterOneYear.getMonth() + x);
             return dateAfterOneYear;
           }
-        },
-        checkOutmaxDate: {
-          value: function () {
-            var x = 3; //or whatever offset
-            var dateAfterOneYear = new Date();
-            dateAfterOneYear.setMonth(dateAfterOneYear.getMonth() + x);
-            return dateAfterOneYear;
-          }
-
         },
         /**
         *@private
