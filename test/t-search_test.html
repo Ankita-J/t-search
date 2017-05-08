@@ -10,7 +10,7 @@
   <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
   <script src="../bower_components/iron-test-helpers/mock-interactions.js"></script>
- <!-- <script src="../test/t-search_test.js"></script>
+  <!-- <script src="../test/t-search_test.js"></script>
   <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>-->
 
   <!--<link rel="import" href="../bower_components/iron-test-helpers/test-helpers.html">-->
@@ -20,7 +20,7 @@
 
 <body>
   <test-fixture id="basic">
-    <template>  
+    <template>
       <t-search id="search"></t-search>
     </template>
   </test-fixture>
@@ -42,6 +42,23 @@
       setup(function () {
         header = fixture('basic');
       });
+      function setDummyInputData () {
+        header = fixture('basic');
+        location = header.$.location;
+        location.$.autoSuggest.value = "London, United Kingdom";
+        header.$.start = "05/16/17";
+        header.$.end = "05/18/17";
+        menuButton = header.$.menuButton;
+        menuButton.$.input = "2 Adults in 1 Room";
+
+      }
+      // test("check with dummy data", function (){
+      //   setDummyInputData();
+      //   var isDone = header._submitSearchFormInput();
+      //   assert.equal(isDone, false, "searching done successful");
+      // });
+
+
       //test case for travellers dropdown property in t-search.html 
       test("choice default value for travellers dropdown in property", function () {
         assert.equal(header.choice, '0');
@@ -232,10 +249,14 @@
       test('check the Day Name is correct', function (date) {
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         var d = new Date(date);
+         var element = fixture('basic');
+        start = element.$.start;
+        picker = start.$.picker;
+        calendar = picker.$.calendar;
+        var day = calendar._checkDayName(date);
         if (d.isSelected == true) {
-          //var d = new Date(date);
           var dayName = days[d.getDay()];
-          assert.equal(dayName.show, true);
+          assert.equal(dayName, day);
         }
         date();
       });
@@ -249,37 +270,55 @@
       });
       //test case for checkingthe last day of month in t-calender.html
       test('check Last Day of Month', function (isSelected) {
-        var date = new Date();
+        var date = new Date(05/28/2017);        
+        var element = fixture('basic');
+        start = element.$.start;
+        picker = start.$.picker;
+        calendar = picker.$.calendar;
+        var day = calendar._checkLastDayofMonth(date);
         if (date.isSelected) {
-          assert.equal(date.getFullYear(), date.getMonth() + 1, 0);
-          //  expect().toEqual(dateFormat);
-          return date;
+          assert.equal(day, "31");         
         }
         isSelected();
       });
       //test case for checking first day of month in t-calender.html
       test('check First Day of Month', function (isSelected) {
         var date = new Date();
+        var element = fixture('basic');
+        start = element.$.start;
+        picker = start.$.picker;
+        calendar = picker.$.calendar;
+        var day = calendar._checkFirstDayofMonth(date);
         if (date.isSelected) {
-          assert.equal(d.setMonth(d.getMonth(), 1), true);
-          d.setHours(0, 0, 0, 0);
-          return date;
+          assert.equal(day, "1");
         }
         isSelected();
       });
       //test case for checking the first day of week in t-calender.html
       test('check first day of week', function (isSelected) {
         var date = new Date();
-        if (date.isSelected) {
-          var dayName = document.querySelector("#weekday").textContent;
-          if (dayName == "M") {
-            return "Monday";
-          }
-          else {
-            return "Sunday";
-          }
-        }
-        isSelected();
+        var element = fixture('basic');
+        start = element.$.start;
+        picker = start.$.picker;
+        calendar = picker.$.calendar;
+        if (date.isSelected){
+        var day = calendar._checkFirstDayofWeek(date);
+        assert.equal(day, "Sunday");
+        }        
+        isSelected();        
+      });
+
+      test('check last day of week', function (isSelected) {
+        var date = new Date();
+        var element = fixture('basic');
+        start = element.$.start;
+        picker = start.$.picker;
+        calendar = picker.$.calendar;
+        if (date.isSelected){
+        var day = calendar._checkLastDayofWeek(date);
+        assert.equal(day, "Saturday");
+        }        
+        isSelected();        
       });
     });
   </script>
