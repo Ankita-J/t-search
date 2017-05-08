@@ -1,0 +1,21 @@
+{
+  "suites": [
+    "test/index.html"
+  ],
+    "verbose": true,
+    "plugins": {
+      "istanbul": {
+          "dir": "./coverage",
+          "reporters": ["text-summary", "lcov"],
+          "include": [
+              "test/t-search_test.html"
+          ],
+          "exclude": [
+            "t-search_test.js"
+          ]
+      },
+      "local": {
+        "browsers": ["chrome"]
+    }
+  }
+}
